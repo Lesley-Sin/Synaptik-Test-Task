@@ -1,0 +1,1 @@
+export type SortingDirection = 'Ascending' | 'Descending' | 'Alphabet';
