@@ -18,3 +18,17 @@
 3. React Navigation
 4. Events (node.js packege)
 5. Native Base (ui library)
+
+Команды для запуска проекта:
+```
+git clone https://github.com/Lesley-Sin/Synaptik-Test-Task.git
+```
+```
+cd %dir
+```
+```
+npx react-native start
+```
+```
+npx react-native run-android
+```
