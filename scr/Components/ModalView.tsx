@@ -1,8 +1,9 @@
 import { Modal } from 'native-base';
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, Text, View, StyleSheet } from 'react-native'
 import { DependenciesContainer } from '../Core/models/DependenciesContainer';
 import { imageSource } from '../Core/models/imageSource';
+import { colorScheme, margins, radiusScheme } from '../Shared/styleSchemes/constants';
 import { ListItemModel } from './models/ListItemModel';
 
 interface IModalView {
@@ -14,33 +15,36 @@ export const ModalView: React.FC<IModalView> = ({ deps }) => {
     const itemModel = React.useRef<ListItemModel>();
     const { eventsSetvice } = deps;
 
+    //initial events subscription
     React.useEffect(() => {
-        eventsSetvice.addListener(`openModal`, (data: ListItemModel) => onModalOpen(data));
+        eventsSetvice.addListener(`openModal`, onModalOpen);
 
         return () => {
             eventsSetvice.removeAllListeners(`openModal`)
         };
     }, []);
 
+    //event callback
     function onModalOpen(model: ListItemModel) {
         itemModel.current = model
         setOpen(true)
-        console.log(itemModel)
     };
 
     return (
         <Modal isOpen={open} onClose={() => setOpen(false)}  >
             <Modal.Content >
                 <Modal.CloseButton />
-                <Modal.Header>{`${itemModel.current?.firstName} ${itemModel.current?.lastName}`}</Modal.Header>
+                <Modal.Header  >
+                    <Text style={style.text} >{`${itemModel.current?.firstName} ${itemModel.current?.lastName}`}</Text>
+                </Modal.Header>
                 <Modal.Body>
-                    <View style={{ flexDirection: 'row' }} >
-                        <Image source={imageSource(itemModel.current?.avatar, 85, 85)} style={{ backgroundColor: itemModel.current?.profileColor, borderRadius: 50 }} />
-                        <View style={{ flexDirection: 'column', marginHorizontal: 10 }} >
-                            <Text>Country: {itemModel.current?.county}</Text>
-                            <Text>Sity: {itemModel.current?.city}</Text>
-                            <Text>Phone number: {itemModel.current?.phone}</Text>
-                            <Text>ID: {itemModel.current?.id}</Text>
+                    <View style={style.rowContainer} >
+                        <Image source={imageSource(itemModel.current?.avatar, 75, 75)} style={[style.image, { backgroundColor: itemModel.current?.profileColor }]} />
+                        <View style={style.textContainer} >
+                            <Text style={style.text} >Country: {itemModel.current?.county}</Text>
+                            <Text style={style.text} >Sity: {itemModel.current?.city}</Text>
+                            <Text style={style.text} >Phone number: {itemModel.current?.phone}</Text>
+                            <Text style={style.text} >ID: {itemModel.current?.id}</Text>
                         </View>
                     </View>
                 </Modal.Body>
@@ -49,3 +53,19 @@ export const ModalView: React.FC<IModalView> = ({ deps }) => {
     );
 
 };
+
+const style = StyleSheet.create({
+    rowContainer: {
+        flexDirection: 'row'
+    },
+    text: {
+        color: colorScheme.secondary
+    },
+    textContainer: {
+        flexDirection: 'column',
+        marginHorizontal: margins.smallMargin
+    },
+    image: {
+        borderRadius: radiusScheme.rounded
+    }
+});

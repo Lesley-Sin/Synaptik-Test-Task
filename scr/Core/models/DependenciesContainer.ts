@@ -1,7 +1,11 @@
-import { EventsService } from "../Services/EventsService/EventsService";
-import ReqresService from "../Services/ReqresService/ReqresService";
+import type { IEventsService } from "../API/IEventsService";
+import type { IReqresService } from "../API/IReqresService";
 
+/**
+* @DependenciesContainer
+* Provides a dependency container type that contains references to module APIs
+*/
 export type DependenciesContainer = {
-    reqresService: ReqresService;
-    eventsSetvice: EventsService;
+    reqresService: IReqresService;
+    eventsSetvice: IEventsService;
 };

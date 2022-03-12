@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, Text, Image, Pressable } from 'react-native'
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native'
 import { imageSource } from '../Core/models/imageSource'
+import { margins, paddings, radiusScheme, colorScheme } from '../Shared/styleSchemes/constants'
 
 import type { ListItemModel } from './models/ListItemModel'
 
@@ -9,43 +10,61 @@ interface IListItem {
     onPress: () => void;
 };
 
-export function ListItem({ model, onPress }: IListItem): JSX.Element {
+export class ListItem extends React.PureComponent<IListItem> {
+    private model: ListItemModel;
+    private onPress: () => void;
 
+    constructor(props: IListItem) {
+        super(props)
+        this.model = props.model;
+        this.onPress = props.onPress;
+    };
 
-    function userAvatar() {
+    private userAvatar(): JSX.Element {
         return (
-            <Image source={imageSource(model.avatar)} style={{ backgroundColor: '#DCDCDC', borderRadius: 45 }} />
+            <Image source={imageSource(this.model.avatar)} style={style.image} />
         )
     };
 
-    function userCreditials() {
+    private userCreditials(): JSX.Element {
         return (
-            <View style={{ marginHorizontal: 15, justifyContent: 'center' }} >
-                <Text style={{ color: 'white' }} >First name: {model.firstName}</Text>
-                <Text style={{ color: 'white' }} >Last name: {model.lastName}</Text>
+            <View style={{ marginHorizontal: margins.deafaultMargins, justifyContent: 'center' }} >
+                <Text style={{ color: colorScheme.def }} >First name: {this.model.firstName}</Text>
+                <Text style={{ color: colorScheme.def }} >Last name: {this.model.lastName}</Text>
             </View>
         )
     };
 
-    function userId() {
+    public render(): React.ReactNode {
         return (
-            <View style={{alignSelf: 'center'}} >
-                <Text style={{ color: 'white' }} >User ID: {model.id}</Text>
-            </View>
+            <Pressable
+                style={[style.mainContainer, { backgroundColor: this.model.profileColor }]}
+                onPress={this.onPress}
+            >
+                <View style={style.viewContainer}>
+                    {this.userAvatar()}
+                    {this.userCreditials()}
+                </View>
+            </Pressable >
         )
     };
-
-    return (
-        <Pressable
-            style={{ marginHorizontal: 10, marginVertical: 5, padding: 15, backgroundColor: model.profileColor, borderRadius: 15 }}
-            onPress={onPress}
-        >
-            <View style={{ flexDirection: 'row', alignContent: 'space-between' }}>
-                {userAvatar()}
-                {userCreditials()}
-                {userId()}
-            </View>
-        </Pressable >
-    );
 
 };
+
+const style = StyleSheet.create({
+    mainContainer: {
+        marginHorizontal: margins.smallMargin,
+        marginVertical: margins.exSmallMargin,
+        padding: paddings.smallPadding,
+        borderRadius: radiusScheme.def
+    },
+    viewContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start'
+    },
+    image: {
+        backgroundColor: colorScheme.def,
+        borderRadius: radiusScheme.rounded
+    }
+
+});

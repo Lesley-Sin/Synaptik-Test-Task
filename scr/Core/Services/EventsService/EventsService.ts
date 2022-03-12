@@ -1,10 +1,12 @@
 import EventEmitter from "events";
 
-export class EventsService {
-    private emitter: EventEmitter;
+import type { IEventsService } from "../../API/IEventsService";
+
+export class EventsService implements IEventsService {
+    private readonly emitter: EventEmitter;
 
     constructor() {
-        this.emitter = new EventEmitter;
+        this.emitter = new EventEmitter();
     };
 
     public addListener(eventKey: string | symbol, listener: (...args: any[]) => void): void {
@@ -19,7 +21,7 @@ export class EventsService {
         this.emitter.removeAllListeners(eventKey);
     };
 
-    public emit(eventKey: string | symbol, ...args: any[]) {
+    public emit(eventKey: string | symbol, ...args: any[]): void {
         this.emitter.emit(eventKey, ...args);
     };
 

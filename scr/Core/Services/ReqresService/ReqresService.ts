@@ -1,10 +1,11 @@
+import type { IReqresService } from "../../API/IReqresService";
 import type { ReqType } from "./ReqType";
 
-export default class ReqresService {
-    private protocol = `https://`;
-    private path = `mocky.io/v3`
+export default class ReqresService implements IReqresService {
+    private readonly protocol = `https://`;
+    private readonly path = `mocky.io/v3`;
 
-    public async send(relativePath: string, method: ReqType, data?: any) {
+    public async send(relativePath: string, method: ReqType, data?: any): Promise<Response> {
         const isFormData = data instanceof FormData;
         try {
             const responce = await fetch(`${this.protocol}${this.path}${relativePath}`, {
@@ -16,10 +17,10 @@ export default class ReqresService {
                         : "application/json"
                 },
                 body: isFormData ? data : JSON.stringify(data)
-            })
+            });
             return responce;
         } catch (error) {
-            //error handling
+            //Error handling
             console.error(error)
         };
     };

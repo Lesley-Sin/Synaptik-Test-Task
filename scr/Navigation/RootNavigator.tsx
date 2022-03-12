@@ -1,9 +1,9 @@
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native'
 import { MainScreen } from '../Screens/MainScreen';
-import { AboutScreen } from '../Screens/AboutScreen';
-import { SettingsScreen } from '../Screens/SettingsScreen';
-import { DependenciesContainer } from '../Core/DependenciesContainer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import type { DependenciesContainer } from '../Core/models/DependenciesContainer';
 
 const Tabs = createBottomTabNavigator();
 
@@ -14,15 +14,11 @@ interface IRootNavigator {
 export const RootNavigator = ({ deps }: IRootNavigator) => {
     return (
         <Tabs.Navigator
+            screenOptions={{ headerShown: false }}
+            tabBar={() => <View />}
             initialRouteName='Main'>
             <Tabs.Screen name='Main' >
                 {() => <MainScreen deps={deps} />}
-            </Tabs.Screen>
-            <Tabs.Screen name='About me' >
-                {() => <AboutScreen />}
-            </Tabs.Screen>
-            <Tabs.Screen name='Settings' >
-                {() => <SettingsScreen />}
             </Tabs.Screen>
         </Tabs.Navigator>
     );
