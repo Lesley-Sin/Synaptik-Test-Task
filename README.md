@@ -15,19 +15,5 @@
 1. React Native & React-Native-CLI
 2. TypeScript
 3. React Navigation
-4. Events (node.js packege)
+4. Events (node.js package)
 5. Native Base (ui library)
-
-Команды для запуска проекта:
-```
-git clone https://github.com/Lesley-Sin/Synaptik-Test-Task.git
-```
-```
-cd %dir
-```
-```
-npx react-native start
-```
-```
-npx react-native run-android
-```
